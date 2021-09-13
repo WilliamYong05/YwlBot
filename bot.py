@@ -11,7 +11,6 @@ async def echo(ctx, *args):
     m_args = " ".join(args)
     await ctx.send(m_args)
 
-Bot.add_cog(image_cog(Bot))
 Bot.add_cog(music_cog(Bot))
 
 token = ""
