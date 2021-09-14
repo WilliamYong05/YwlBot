@@ -56,3 +56,4 @@ websocket-client==1.1.0
 wsproto==1.0.0
 yarl==1.6.3
 youtube-dl==2021.6.6
+
