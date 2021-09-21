@@ -8,8 +8,8 @@ chardet==4.0.0
 colorama==0.4.4
 cryptography==3.4.7
 cycler==0.10.0
-discord==1.0.1
-discord.py==1.7.3
+discord
+discord.py
 ffmpeg==1.4
 ffprobe==0.5
 google-images-download==2.8.0
