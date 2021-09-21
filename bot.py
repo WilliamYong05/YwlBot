@@ -487,9 +487,6 @@ bot = commands.Bot(description='YwlXD#3960 Music Bot.', command_prefix=',')
 bot.add_cog(Music(bot))
 
 @bot.command(name= 'echo')
-async def _loop(self, ctx: commands.Context):
-        """Repeat
-        """
 async def echo(ctx, *agrs):
     m_agrs = " ".join(agrs)
     await ctx.send(m_agrs)
