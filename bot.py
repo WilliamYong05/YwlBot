@@ -502,4 +502,4 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(',help'))
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
 
-bot.run('ODUxNzY2MDk5NDQ2OTg4ODEx.YL9C_w.GKmNqVSZjDMOjSlVljLqSGd0RFc')
+bot.run('ODUxNzY2MDk5NDQ2OTg4ODEx.YL9C_w.zhV4xlZFMMFVpNC3jPHKOeJhxEY')
