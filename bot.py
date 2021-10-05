@@ -220,22 +220,27 @@ class VoiceState:
             self.now = None
 
             if self.loop == False:
+                # Try to get the next song within 3 minutes.
+                # If no song will be added to the queue in time,
+                # the player will disconnect due to performance
+                # reasons.
                 try:
-                    async with timeout(180):  
+                    async with timeout(180):  # 3 minutes
                         self.current = await self.songs.get()
                 except asyncio.TimeoutError:
                     self.bot.loop.create_task(self.stop())
                     self.exists = False
                     return
-                
+
                 self.current.source.volume = self._volume
                 self.voice.play(self.current.source, after=self.play_next_song)
                 await self.current.source.channel.send(embed=self.current.create_embed())
-            
+
+            # If the song is looped
             elif self.loop == True:
                 self.now = discord.FFmpegPCMAudio(self.current.source.stream_url, **YTDLSource.FFMPEG_OPTIONS)
                 self.voice.play(self.now, after=self.play_next_song)
-            
+
             await self.next.wait()
 
     def play_next_song(self, error=None):
@@ -479,7 +484,7 @@ class Music(commands.Cog):
                     else:
                         song = Song(source)
                         await ctx.voice_state.songs.put(song)
-                await ctx.send(f'Enqueued `{playlist.__len__()}` songs from **{playlistTitle}**')
+                await ctx.send(f'Queued `{playlist.__len__()}` songs from **{playlistTitle}**')
         else:
             async with ctx.typing():
                 try:
@@ -491,31 +496,6 @@ class Music(commands.Cog):
 
                     await ctx.voice_state.songs.put(song)
                     await ctx.send('Enqueued {}'.format(str(source)))
-
-    def _playlist(self, search: str):
-        """Returns a dict with all Playlist entries"""
-        ydl_opts = {
-        'ignoreerrors': True,
-        'quit': True
-        }
-
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            playlist_dict = ydl.extract_info(search, download=False)
-
-            playlistTitle = playlist_dict['title']
-
-            playlist = dict()
-            for video in playlist_dict['entries']:
-                print()
-
-                if not video:
-                    print('ERROR: Unable to get info. Coninuing...')
-                    continue
-                
-                for prop in ['id', 'title']:
-                    print(prop, '--', video.get(prop))
-                    playlist[video.get('title')] = 'https://www.youtube.com/watch?v=' + video.get('id')
-            return playlist, playlistTitle
 
     def _playlist(self, search: str):
         """Returns a dict with all Playlist entries"""
